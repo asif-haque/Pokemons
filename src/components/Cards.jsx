@@ -33,14 +33,14 @@ const Cards = () => {
     setSearchResults(() =>
       data?.filter((el) => el.name.toLowerCase().includes(searchQuery))
     );
-  }, [searchQuery]);
+  }, [searchQuery, data]);
 
-  // const handleLoadMore = async () => {
-  //   const response = await callData(res?.next);
-  //   setRes(response);
-  //   console.log(response.results);
-  //   setData((prev) => [...prev, response.results]);
-  // };
+  const handleLoadMore = async () => {
+    const response = await callData(res?.next);
+    setRes(response);
+    // console.log([...data, ...response.results]);
+    setData((prev) => [...prev, ...response.results]);
+  };
 
   if (loading) {
     return <h1 className="text-center text-xl">Wait...</h1>;
@@ -57,12 +57,12 @@ const Cards = () => {
           ? searchResults?.map((el) => <Card details={el} key={el.name} />)
           : data?.map((el) => <Card details={el} key={el.name} />)}
       </div>
-      {/* <button
+      <button
         className="w-full py-3 bg-gray-700 rounded-lg mb-10"
         onClick={handleLoadMore}
       >
         Load more
-      </button> */}
+      </button>
     </>
   );
 };
